@@ -1,5 +1,5 @@
 <template>
-    <n-grid x-gap="8" responsive="screen">
+    <n-grid x-gap="8" y-gap="8" cols="12 l:24" responsive="screen">
         <n-gi span="12">
             <n-button strong secondary type="info" icon-placement="left" style="width:100%;"
                 @click="$emit('click:add')">

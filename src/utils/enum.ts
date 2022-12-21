@@ -1,6 +1,6 @@
 export const platNames = {
-  github: { value: 'github', baseURL: 'https://api.github.com/repos' },
-  gitee: { value: 'gitee', baseURL: 'https://gitee.com/api/v5/repos' },
+  github: { value: 'github', label: 'github', baseURL: 'https://api.github.com/repos' },
+  gitee: { value: 'gitee', label: '码云', baseURL: 'https://gitee.com/api/v5/repos' },
 }
 
 export const MAPFILENAME = '.map'

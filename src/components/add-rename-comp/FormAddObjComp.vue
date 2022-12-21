@@ -117,6 +117,7 @@ async function addObj() {
     obj.data.id = Math.random().toString(36).slice(2)
     obj.data.name = formModel.name
     obj.data.path = join(props.dataModel.data.path, `${obj.data.id}`)
+    obj.data.createTime = new Date().toLocaleString()
 
     emits('addObj', obj)
 

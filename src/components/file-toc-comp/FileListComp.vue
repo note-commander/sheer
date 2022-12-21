@@ -1,5 +1,5 @@
 <template>
-    <NInput clearable style="position:sticky; top:0.5rem; z-index: 1;" type="text" v-model:value="searchInputText"
+    <NInput clearable class="n-input-style" type="text" v-model:value="searchInputText"
         :placeholder="fileCount + ' 条记录'"></NInput>
     <slot name="breadcrumb"></slot>
 
@@ -61,18 +61,23 @@ import { DocumentText24Filled, Folder28Filled, MoreVertical28Filled } from '@vic
 import { Base64 } from 'js-base64';
 import { api } from '@/api';
 import { platNames, MAPFILEPATH, OBJMODELINMAP } from '@/utils/enum';
-import { repoState, mapState, dirType, fileType } from '@/stores';
+import { repoState, mapState, dirType, fileType,tipTapState  } from '@/stores';
 import { useLoadingBar } from 'naive-ui'
 import { saveAs } from 'file-saver';
 import { join } from 'path-browserify'
 type mapValueType = dirType | fileType
 type objType = { [prop: string]: any }
 
-
-
+// const arr = ref<any[]>([])
+// function tarr() {
+//     for (let i = 0; i < 100; i++) {
+//         arr.value.push({ na: 'zhanglei' })
+//     }
+// }
+// tarr()
 
 const props = defineProps(['dataModel'])
-const emits = defineEmits(['click:dirObj', 'click:fileObj', 'click:rename', 'update:fileList', 'click:rootObj', 'download:dir'])
+const emits = defineEmits(['click:dirObj', 'click:rename', 'update:fileList', 'click:rootObj', 'download:dir'])
 const message = useMessage()
 const loadingBar = useLoadingBar()
 
@@ -260,7 +265,7 @@ function getChildObj(obj: mapValueType, event?: any) {
         if (event) event.currentTarget.blur()
 
     } else if (obj.data.type === 'file') {
-        getFileContent(obj.data.path)
+        getFileContent(obj)
     }
 }
 
@@ -282,22 +287,27 @@ function getFileContentFromSwitch(path: string) {
     }
 }
 //获取文件内容
-async function getFileContent(path: string) {
+async function getFileContent(obj: objType) {
 
     await new Promise((resolve) => {
         resolve(loadingBar.start())
     })
 
     //获取文件内容
-    const resp = await getFileContentFromSwitch(path).catch(() => loadingBar.error()) as objType
+    const resp = await getFileContentFromSwitch(obj.data.path).catch(() => loadingBar.error()) as objType
     if (!resp) return
 
     await new Promise((resolve) => {
-        //把文件内容发射给index
-        emits('click:fileObj', {
-            body: resp.data.content,
-            path: path,
-            sha: resp.data.sha
+        //合并当前文件对象的状态
+        tipTapState.mergeFile({
+            ...obj,
+            data: {
+                ...obj.data,
+                body: resp.data.content,
+                path: obj.data.path,
+                sha: resp.data.sha,
+                createTime: obj.data.createTime
+            }
         })
 
         resolve(loadingBar.finish())
@@ -366,6 +376,21 @@ async function downloadFile(obj: mapValueType) {
 
 
 
+//编辑器保存了新名字就执行改名函数
+watch(tipTapState.filenameFlag, (newValue) => {
+    const obj = {
+        parent: tipTapState.file.parent,
+        data: {
+            id: tipTapState.file.data.id,
+            type: tipTapState.file.data.type,
+            name: tipTapState.filename.value,
+            path: tipTapState.file.data.path,
+            format: tipTapState.file.data.format,
+            createTime: tipTapState.file.data.createTime
+        }
+    }
+    renameObj(obj as fileType)
+})
 //popover：给obj改名
 function renameObj(obj: mapValueType) {
     mapState.current.value.set(obj.data.id, obj)
@@ -612,5 +637,11 @@ defineExpose({ setNewObjToMap, renameObj, handleChangeRepos, getFileList })
 
 .listItemStyle:focus {
     background-color: rgb(250 250 252);
+}
+
+.n-input-style {
+    position: sticky;
+    top: 0.5rem;
+    z-index: 1;
 }
 </style>

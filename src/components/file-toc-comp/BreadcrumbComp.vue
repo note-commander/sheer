@@ -21,6 +21,11 @@
 
 
 <script lang='ts' setup>
+import { mapState } from '@/stores'
+
+
+
+
 type objType = { [prop in string]: any }
 
 
@@ -57,7 +62,9 @@ function pushCrumb(crumb: objType) {
     }
     //crumbList里节点的path都不重复就把新节点push进数组
     if (!hasPath) {
-        nextTick(() => crumbList.value.push(crumb)).then(() => scrollToEnd())
+        nextTick(() => crumbList.value.push(crumb)).then(() => {
+            scrollToEnd()
+        })
     }
 }
 

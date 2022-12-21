@@ -1,5 +1,4 @@
 import { REPOSOBJMODEL } from '@/utils/enum'
-import { localCache } from '@/utils/cache-storage'
 
 type propType = any
 type objType = { [prop in string]: propType }
@@ -11,7 +10,7 @@ watch(
   reposObj,
   (newValue) => {
     if (newValue.nameInPlat) {
-      localCache.setCache('repos-state', JSON.stringify(toRaw(newValue)))
+      localStorage.setItem('repos-state', JSON.stringify(toRaw(reposObj)))
     }
   },
   { deep: true }
@@ -23,11 +22,10 @@ export const actions = {
     Object.assign(reposObj, repos)
   },
   setLocalStorage() {
-    localCache.setCache('repos-state', JSON.stringify(toRaw(reposObj)))
-    // localStorage.setItem('repos-state', JSON.stringify(toRaw(reposObj)))
+    localStorage.setItem('repos-state', JSON.stringify(toRaw(reposObj)))
   },
   getReposObjFromCache() {
-    return localCache.getCache('repos-state') ? JSON.parse(localCache.getCache('repos-state') as string) : null //localStorage.getItem('repos-state') ? JSON.parse(localStorage.getItem('repos-state') as string) : null
+    return localStorage.getItem('repos-state') ? JSON.parse(localStorage.getItem('repos-state') as string) : null //localStorage.getItem('repos-state') ? JSON.parse(localStorage.getItem('repos-state') as string) : null
     // return {
     //   plat: '',
     //   path: '/note-commander',
@@ -45,8 +43,7 @@ export const actions = {
     }
   },
   removeAllCookie() {
-    localCache.removeCache('repos-state')
-    //localStorage.removeItem('repos-state')
+    localStorage.removeItem('repos-state')
   },
 }
 

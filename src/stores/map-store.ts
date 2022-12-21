@@ -1,3 +1,5 @@
+type objType = { [prop: string]: any }
+
 export interface dirType {
   parent: string
   data: dirDataType

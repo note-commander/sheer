@@ -83,11 +83,21 @@ const formRules: FormRules = {
 
 
 
+//去掉表单数据模型内数据头尾的空格
+function clearTrim(obj: objType) {
+    Object.entries(obj).forEach(([index, value]) => {
+        obj[index] = value.trim()
+    })
+}
+
+
+
+
 //点击表单的submit按钮后验证表单项合法性，合法就执行新增obj函数
 const handleValidateClick = () => {
     formRef.value?.validate((errors: any) => {
         if (!errors) {
-
+            clearTrim(formModel)
             if (props.dataModel.nameInPlat) {
                 updateRepos(formModel).then(() => {
                     //发射事件给index

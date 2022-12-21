@@ -39,5 +39,13 @@ export default defineConfig(({ command, mode }) => {
         exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
       }),
     ],
+    //预处理less文件，需要先安装less和less-loader
+    // css: {
+    //   preprocessorOptions: {
+    //     less: {
+    //       additionalData: '@import "/src/assets/tiptap-img.less";',
+    //     },
+    //   },
+    // },
   }
 })
