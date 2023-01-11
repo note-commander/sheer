@@ -2,7 +2,7 @@
     <n-modal v-model:show="showModal" preset="card" style="width:38rem ;" :bordered="false"
         :title="repoState.repos.name">
         <ReposDetailComp ref="reposDetailCompRef" v-if="showReposDetail" @click:edit="handleEditClick"
-            @click:output="handleOutputClick" @click:delete="handleDeleteClick">
+            @click:output="handleOutputClick" @click:logout="handleLogoutRepos" @click:delete="handleDeleteClick">
         </ReposDetailComp>
         <FormReposObjComp ref="formReposObjCompRef" v-if="showFormReposObj" :data-model="repoState.repos"
             @submit:repos="handleSubmitRepos" @click:cancle="handleClickCancle">
@@ -75,6 +75,14 @@ function handleClickCancle() {
 function handleOutputClick() {
     showModal.value = false
     outputReposCompRef.value.confirmClickOutput()
+}
+
+
+
+
+//点击注销按钮的处理函数
+function handleLogoutRepos() {
+    showModal.value = false
 }
 
 

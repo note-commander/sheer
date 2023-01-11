@@ -189,8 +189,12 @@ defineExpose({ setFocus, handleCommand, getText, getHtml })
     /* font-size: 1.15em;
     letter-spacing: 0.12em;
     word-spacing: 0.2em; */
+    color: #213547;
+    font-size: 16px;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     text-align: justify;
-    color: #1f2225
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .ProseMirror pre {

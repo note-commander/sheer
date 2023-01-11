@@ -1,7 +1,7 @@
 {
-  "name": "vue3-vite-notecommander-simple",
+  "name": "vue3-vite-notecommander-sheer",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.3230112",
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",

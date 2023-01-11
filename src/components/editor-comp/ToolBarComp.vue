@@ -1,16 +1,17 @@
 <template>
+
     <n-space justify="space-around" class="bar">
-        <div v-for="item in btns">
+        <div v-for="(item, index) in btns">
 
             <n-button v-if="arr.includes(item.sign)" quaternary size="small" @click="handleClickBtn(item.sign)">
-                <img alt="note-commander" :src="item.icon" :title="item.label" class="icon">
+                <div class="icon-style" :style="`background-position-x: -${14 * index}px`"></div>
             </n-button>
 
             <n-dropdown v-else trigger="hover" :animated="false" :options="getOptions(item.sign)"
                 @select="handleSelect($event, item.sign)">
 
                 <n-button quaternary size="small">
-                    <img alt="note-commander" :src="item.icon" :title="item.label" class="icon">
+                    <div class="icon-style" :style="`background-position-x: -${14 * index}px`"></div>
                 </n-button>
 
             </n-dropdown>
@@ -91,27 +92,7 @@
 
 
 <script lang='ts' setup>
-import bold from '@/assets/bold-solid.svg'
-import floppyDisk from '@/assets/floppy-disk-solid.svg'
-import bookmark from '@/assets/bookmark-solid.svg'
-import heading from '@/assets/hashtag-solid.svg'
-import italics from '@/assets/italic-solid.svg'
-import underline from '@/assets/underline-solid.svg'
-import strikethrough from '@/assets/strikethrough-solid.svg'
-import superscript from '@/assets/superscript-solid.svg'
-import subscript from '@/assets/subscript-solid.svg'
-import quote from '@/assets/quote-left-solid.svg'
-import listOl from '@/assets/list-ol-solid.svg'
-import listUl from '@/assets/list-ul-solid.svg'
-import link from '@/assets/link-solid.svg'
-import image from '@/assets/image-solid.svg'
-import code from '@/assets/code-solid.svg'
-import table from '@/assets/table-solid.svg'
-import rotateLeft from '@/assets/rotate-left-solid.svg'
-import rotateRight from '@/assets/rotate-right-solid.svg'
-import info from '@/assets/circle-info-solid.svg'
 import { NSpace, NButton, NDropdown, NForm, NFormItem, NInput, NModal, NUpload, UploadFileInfo } from 'naive-ui'
-import { mapState } from '@/stores'
 import { api } from '@/api'
 import { platNames } from '@/utils/enum'
 import showdown from 'showdown'
@@ -126,29 +107,28 @@ const emits = defineEmits(['click:command', 'click:info', 'click:save'])
 
 
 
-interface btnObj { label: string, icon: string, sign: string | number }
+interface btnObj { sign: string | number }
 //工具栏按钮列表
 const btns = ref<btnObj[]>([
-    { label: '保存', icon: floppyDisk, sign: 'save' },
-    { label: '标题', icon: heading, sign: 'heading' },
-    { label: '粗体', icon: bold, sign: 'bold' },
-    { label: '斜体', icon: italics, sign: 'italics' },
-    { label: '下划线', icon: underline, sign: 'underline' },
-    { label: '删除线', icon: strikethrough, sign: 'strikethrough' },
-    { label: '标记', icon: bookmark, sign: 'bookmark' },
-    { label: '上角标', icon: superscript, sign: 'superscript' },
-    { label: '下角标', icon: subscript, sign: 'subscript' },
-    // { label: '插入',  icon: floppyDisk,    sign: 'floppyDisk'    },
-    { label: '引用', icon: quote, sign: 'quote' },
-    { label: '有序列表', icon: listOl, sign: 'listOl' },
-    { label: '无序列表', icon: listUl, sign: 'listUl' },
-    { label: '链接', icon: link, sign: 'link' },
-    { label: '图片', icon: image, sign: 'image' },
-    { label: '代码块', icon: code, sign: 'code' },
-    { label: '表格', icon: table, sign: 'table' },
-    { label: '上一步', icon: rotateLeft, sign: 'rotateLeft' },
-    { label: '下一步', icon: rotateRight, sign: 'rotateRight' },
-    { label: '信息', icon: info, sign: 'info' },
+    { sign: 'save' },
+    { sign: 'heading' },
+    { sign: 'bold' },
+    { sign: 'italics' },
+    { sign: 'underline' },
+    { sign: 'strikethrough' },
+    { sign: 'bookmark' },
+    { sign: 'superscript' },
+    { sign: 'subscript' },
+    { sign: 'quote' },
+    { sign: 'listOl' },
+    { sign: 'listUl' },
+    { sign: 'link' },
+    { sign: 'image' },
+    { sign: 'code' },
+    { sign: 'table' },
+    { sign: 'rotateLeft' },
+    { sign: 'rotateRight' },
+    { sign: 'info' },
 ])
 //对照组，用于验证sign的有效性
 const arr = computed(() => {
@@ -364,7 +344,7 @@ function openInfoModal(text: string) {
     //算符号数
     symbolCount.value = text.length - charCount.value
     //处理创建日期
-    createTime.value = tipTapState.file.data.createTime ? '创建于 ' + tipTapState.file.data.createTime : '还没添加笔记文件'
+    createTime.value = tipTapState.file.data.createTime ? '创建于 ' + tipTapState.file.data.createTime : '还没选择笔记文件'
     //显示模态窗
     showInfoModal.value = true
 }
@@ -556,10 +536,9 @@ defineExpose({ openInfoModal, decodeContent })
     align-items: center;
 }
 
-.icon {
+.icon-style {
+    width: 14px;
     height: 14px;
-    width: auto;
-    -webkit-filter: invert(100%);
-    filter: opacity(75%);
+    background: no-repeat left/cover url('@/assets/btn-icon-script.svg');
 }
 </style>

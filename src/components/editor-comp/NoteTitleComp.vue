@@ -55,6 +55,8 @@ function handlekeyDown(e: KeyboardEvent) {
     font-size: 28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: justify;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .title-box::-webkit-input-placeholder {

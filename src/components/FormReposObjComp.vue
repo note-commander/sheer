@@ -16,7 +16,7 @@
                     <n-input clearable size="large" placeholder="请输入仓库地址" v-model:value="formModel.git"
                         @input="showPopover.git = false" />
                 </template>
-                <span>仓库名错误</span>
+                <span>仓库地址错误</span>
             </n-popover>
         </n-form-item>
 
@@ -86,7 +86,7 @@ const formRules: FormRules = {
 //去掉表单数据模型内数据头尾的空格
 function clearTrim(obj: objType) {
     Object.entries(obj).forEach(([index, value]) => {
-        obj[index] = value.trim()
+        obj[index] = value.toString().trim()
     })
 }
 
@@ -227,7 +227,14 @@ async function addRepos(reposObj: any) {
         //把ssh格式解析成https
         const str = gitUrl.replace(/^git@/, 'https://').replace(/.com:/, '.com/').replace('.git', '')
         //构造url对象
-        const url = new URL(str)
+        let url: URL
+        try {
+            url = new URL(str)
+        } catch (error) {
+            showPopover.git = true
+            return
+        }
+
         //先处理一下url里的pathname
         const pathname = url.pathname.split('/')
         //赋予创建时间

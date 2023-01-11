@@ -5,7 +5,7 @@
 
     <n-modal v-model:show="showFormModal" preset="card" style="width:38rem;" :bordered="false" title="添加仓库">
         <FormReposObjComp :data-model="reposObjWithEmpty" @submit:create-repos="handleSubmitCreateRepos"
-            @submit:load-repos="handleSubmitLoadRepos">
+            @submit:load-repos="handleSubmitLoadRepos" @click:cancle="showFormModal = false">
         </FormReposObjComp>
     </n-modal>
 </template>

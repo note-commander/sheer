@@ -19,7 +19,6 @@ declare module '@vue/runtime-core' {
     FormAddObjComp: typeof import('./src/components/add-rename-comp/FormAddObjComp.vue')['default']
     FormRenameObjComp: typeof import('./src/components/add-rename-comp/FormRenameObjComp.vue')['default']
     FormReposObjComp: typeof import('./src/components/FormReposObjComp.vue')['default']
-    MavonEditorComp: typeof import('./src/components/MavonEditorComp.vue')['default']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']

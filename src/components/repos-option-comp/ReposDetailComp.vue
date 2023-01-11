@@ -31,7 +31,7 @@
         <n-h3>
             <n-text code :strong="true">
                 https://api.github.com/repos/{{ repoState.repos.usernameInPlat }}/{{
-                        repoState.repos.nameInPlat
+                    repoState.repos.nameInPlat
                 }}/contents{{ repoState.repos.path }}<br />
                 -H "Authorization: Bearer {{ repoState.repos.tokenInPlat }}"
             </n-text>
@@ -52,6 +52,8 @@
 
         <n-button quaternary type="info" @click="handleOutputClick">导出</n-button>
 
+        <n-button quaternary type="info" @click="handleLogoutRepos">注销</n-button>
+
         <n-button quaternary type="error" @click="handleDeleteClick">删除</n-button>
     </n-space>
 </template>
@@ -63,7 +65,7 @@ import { repoState, mapState } from '@/stores';
 
 
 
-const emits = defineEmits(['click:edit', 'click:output', 'click:delete'])
+const emits = defineEmits(['click:edit', 'click:output', 'click:logout', 'click:delete'])
 
 
 
@@ -103,6 +105,17 @@ nextTick(() => {
 
 function handleEditClick() {
     emits('click:edit')
+}
+
+
+
+
+//切换仓库
+function handleLogoutRepos() {
+
+    repoState.clearStore()
+    repoState.removeAllCookie()
+    emits('click:logout')
 }
 
 
